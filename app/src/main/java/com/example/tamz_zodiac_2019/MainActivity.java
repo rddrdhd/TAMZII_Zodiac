@@ -16,18 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-//druhotne TODO: po stisku obrazku toast action_up a down, alfa kanal, a spusti se webovka horoskopy.cz - vytvoříme url adresu a hodíme ji do intentu - spustime aktivitu už existující androiďáckou kam dáme jen tu adresu
-//změna pozadí druhé aktivity - při kliku na settings zvolení obrázku - startActivityForResult - pošleme zprávu o změně pozadí
-// shared preferenes: pro uložení settings,
-
-
-// Add new Activity (that starts after clicking the zodiac symbols ) with TextView that describes zodiac properties + zodiac date + zodiac name
-// Add new Activity that is activated from menu item "About"
-// Add corect zodiac symbols based on the day
-// Start new activity with opening URL (e.g. https://www.horoskopy.cz/) in web browser with selected zodiac
-// Change background of main activity using startActivityForResult and onActivityResult
-// Save actual state of aplication using SharedPreferences (Date, Month, Zodiac symbols, Name)
-// Test setOnTouchListener with MotionEvent.ACTION_DOWN and MotionEvent.ACTION_UP on zodiac image
+// TODO Change background of main activity using startActivityForResult and onActivityResult - pošleme zprávu o změně pozadí
 
 
 public class MainActivity extends AppCompatActivity implements DatePicker.OnDateChangedListener{
@@ -118,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements DatePicker.OnDate
         zodiacName = findViewById(R.id.zodiacName);
     }
 
-/////////////////// onActivityResult ///////////////////
+    /////////////////// onActivityResult ///////////////////
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) { //Odchytávač pomocí toho request kódu
 
@@ -142,7 +131,8 @@ public class MainActivity extends AppCompatActivity implements DatePicker.OnDate
             zodiacName.setText("");
         }
     }
-/////////////////// Options menu ///////////////////
+
+    /////////////////// Options menu ///////////////////
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu); //Create menu

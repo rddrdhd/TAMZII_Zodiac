@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/wall02"
     android:id="@+id/RelativeLayoutMain"
     tools:context=".MainActivity">
 
     <View
         android:id="@+id/background"
         android:layout_width="wrap_content"
+        android:background="@drawable/wall02"
         android:layout_height="wrap_content" />
 
     <TextView

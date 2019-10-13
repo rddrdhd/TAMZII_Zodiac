@@ -59,11 +59,13 @@
 
     <TextView
         android:id="@+id/textDesc"
-        android:layout_width="335dp"
+        android:layout_width="366dp"
         android:layout_height="284dp"
         android:layout_marginTop="41dp"
         android:fontFamily="@font/parisienne"
         android:lineSpacingExtra="10sp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
         android:text="Jak to říct, abych tě neurazil?\nNebudeš slavnej, protože... \numíš hovno!"
         android:textAlignment="center"
         android:textAllCaps="false"

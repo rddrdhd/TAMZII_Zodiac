@@ -58,9 +58,9 @@ public class Main2Activity extends AppCompatActivity {
     public void resultClick(View view) { //na tlačítku "back"
 
        // Toast.makeText(this, "resultClickkkkkkkkkkkkk", Toast.LENGTH_LONG).show();
-        Intent myIntent = new Intent(); //vytvoří se záměr
+        Intent myIntent = new Intent(getApplicationContext(), MainActivity.class); //vytvoří se záměr
         myIntent.putExtra("main2","Zprava z lMain2Activity"); //Do záměru se hodí data ve formátu ("key","value")
-        setResult(100, myIntent); //stejný kod jako request kod
+        setResult(100, myIntent);
         finish(); //ukončuje druhou aktivitu
 
     }

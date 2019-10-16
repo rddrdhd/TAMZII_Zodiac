@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements DatePicker.OnDate
     }
     /////////////////// onActivityResult ///////////////////
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) { //Odchytávač pomocí toho request kódu
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) { //Odchytávač pomocí toho request kódu
 
         super.onActivityResult(requestCode, resultCode, data); //do proměnné 'data' přijdou ta data a můžeme je číst
 
@@ -133,13 +133,14 @@ public class MainActivity extends AppCompatActivity implements DatePicker.OnDate
             if (requestCode == 202) {
                 msg = data.getStringExtra("main2");
 
-            } else if (requestCode == 203) {
-                 msg = data.getStringExtra("main3");
-            } else if (requestCode == 204) {
-                msg = data.getStringExtra("main4");
+
+            } else if (requestCode == 420) {
+                 msg = Integer.toString((data.getIntExtra("wall", 0)));
+            } else {
+                msg = "achjo.";
             }
 
-            Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),msg, Toast.LENGTH_LONG).show();
 
         } catch(Exception e) {
             zodiacName.setText("");
@@ -165,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements DatePicker.OnDate
 
         if (id == R.id.item1) { //Settings
             Intent myIntent = new Intent(getApplicationContext(), Main4Activity.class);
-            startActivity(myIntent);
+            startActivityForResult(myIntent, 420);
         }
 
         return super.onOptionsItemSelected(item);

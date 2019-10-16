@@ -1,6 +1,7 @@
 package com.example.tamz_zodiac_2019;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -30,12 +31,18 @@ public class Main4Activity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-
                 pic = R.drawable.wall01;
-                editor.putInt("background", pic);
+
+             /*    editor.putInt("background", pic);
+
                 editor.commit();
                 Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(myIntent);
+                */
+                Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
+                myIntent.putExtra("wall",pic); //Do záměru se hodí data ve formátu ("key","value")
+                setResult(101, myIntent); //stejný kod jako request kod
+finish();
             }
         });
 
@@ -44,12 +51,23 @@ public class Main4Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                 pic = R.drawable.wall02;
-                editor.putInt("background", pic);
+                pic = R.drawable.wall02;
+
+
+/*
+
+
+                 editor.putInt("background", pic);
 
                 editor.commit();
                 Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(myIntent);
+                */
+                Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
+                myIntent.putExtra("wall",pic); //Do záměru se hodí data ve formátu ("key","value")
+                setResult(100, myIntent); //stejný kod jako request kod
+                finish();
+
             }
         });
 

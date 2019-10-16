@@ -2,17 +2,23 @@ package com.example.tamz_zodiac_2019;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements DatePicker.OnDate
     int globalYear = 2000;
     int globalMonth = 0;
     int globalDay = 1;
+
+    static ViewGroup layout ;  //define it globally
     ImageView globalBackground;
     SharedPreferences.Editor editor;
     int[] zodiacDays = new int[] {20,20,20,20,21,21,22,22,22,23,22,21};
@@ -61,11 +69,13 @@ public class MainActivity extends AppCompatActivity implements DatePicker.OnDate
             "Střelec"
     };
 
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //layout = (ViewGroup) view.findViewById(R.id.background);  //put it inside the oncreate of main activity
 
 
         myDate = findViewById(R.id.myDatePicker);
@@ -107,6 +117,18 @@ public class MainActivity extends AppCompatActivity implements DatePicker.OnDate
         zodiacName = findViewById(R.id.zodiacName);
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        SharedPreferences prefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
+
+
+        int wallNum = prefs.getInt("background", 0);
+
+        Toast.makeText(getApplicationContext(), String.valueOf(wallNum), Toast.LENGTH_SHORT).show();
+         findViewById(R.id.background).setBackground(ResourcesCompat.getDrawable(getResources(), wallNum, null));
+
+    }
     /////////////////// onActivityResult ///////////////////
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) { //Odchytávač pomocí toho request kódu
@@ -156,7 +178,6 @@ public class MainActivity extends AppCompatActivity implements DatePicker.OnDate
 
         return super.onOptionsItemSelected(item);
     }
-
 
     /////////////////// onDateChanged ///////////////////
     public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth){

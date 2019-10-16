@@ -35,8 +35,6 @@ public class MainActivity extends AppCompatActivity implements DatePicker.OnDate
     int globalMonth = 0;
     int globalDay = 1;
 
-    static ViewGroup layout ;  //define it globally
-    ImageView globalBackground;
     SharedPreferences.Editor editor;
     int[] zodiacDays = new int[] {20,20,20,20,21,21,22,22,22,23,22,21};
     static final int[] zodiacPics = {
@@ -92,21 +90,13 @@ public class MainActivity extends AppCompatActivity implements DatePicker.OnDate
 
             if(event.getAction() == MotionEvent.ACTION_DOWN) {
                 // Toast.makeText(getApplicationContext(), "Action down", Toast.LENGTH_LONG).show(); //getAppCont získáme ID aplikace bo tato fce je anonymní
-                myText.setText("action down");
                 myImage.setColorFilter(Color.argb(150,50,255,50));
             }
 
             if(event.getAction() == MotionEvent.ACTION_UP) {
-                myText.setText("action up");
                 myImage.clearColorFilter();
 
-                //Toast.makeText(getApplicationContext(), "hmmmmm", Toast.LENGTH_SHORT).show();
                 Intent myIntent = new Intent(getApplicationContext(), Main2Activity.class);
-                myIntent.putExtra("monthOfYear", globalMonth);
-                myIntent.putExtra("dayOfMonth", globalDay);
-                myIntent.putExtra("year", globalDay);
-                myIntent.putExtra("zodiacName", zodiacName.getText());
-
                 startActivityForResult(myIntent, 202);
             }
 
@@ -120,13 +110,15 @@ public class MainActivity extends AppCompatActivity implements DatePicker.OnDate
     @Override
     public void onResume(){
         super.onResume();
+
         SharedPreferences prefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
-
-
         int wallNum = prefs.getInt("background", 0);
 
-        Toast.makeText(getApplicationContext(), String.valueOf(wallNum), Toast.LENGTH_SHORT).show();
-         findViewById(R.id.background).setBackground(ResourcesCompat.getDrawable(getResources(), wallNum, null));
+        Drawable wall = ResourcesCompat.getDrawable(getResources(), wallNum, null);
+
+        View mainBackground = findViewById(R.id.background);
+
+        mainBackground.setBackground(wall);
 
     }
     /////////////////// onActivityResult ///////////////////

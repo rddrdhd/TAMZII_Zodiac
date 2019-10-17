@@ -7,22 +7,11 @@
     android:background="@drawable/wall01"
     tools:context=".Main2Activity">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text=""
-        android:textColor="#FFFFFF"
-        android:textSize="40dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:alpha="0"
         android:onClick="resultClick"
         android:text="Back"
         android:textAllCaps="false"
@@ -42,9 +31,10 @@
         android:textSize="42sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.223" />
+        app:layout_constraintVertical_bias="0.109" />
 
     <TextView
         android:id="@+id/textDate"
@@ -59,18 +49,18 @@
 
     <TextView
         android:id="@+id/textDesc"
-        android:layout_width="366dp"
-        android:layout_height="284dp"
+        android:layout_width="365dp"
+        android:layout_height="399dp"
         android:layout_marginTop="41dp"
         android:fontFamily="@font/parisienne"
-        android:lineSpacingExtra="10sp"
+        android:lineSpacingExtra="8sp"
         android:paddingLeft="30dp"
         android:paddingRight="30dp"
         android:text="Jak to říct, abych tě neurazil?\nNebudeš slavnej, protože... \numíš hovno!"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
-        android:textSize="36sp"
+        android:textSize="36dp"
         android:textStyle="italic"
         android:typeface="normal"
         app:layout_constraintEnd_toEndOf="parent"

@@ -2,7 +2,6 @@ package com.example.tamz_zodiac_2019;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 
 import android.annotation.SuppressLint;
@@ -15,28 +14,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-// TODO Change background of main activity using startActivityForResult and onActivityResult - pošleme zprávu o změně pozadí
-
-
 public class MainActivity extends AppCompatActivity implements DatePicker.OnDateChangedListener{
 /////////////////// Variables ///////////////////
-    DatePicker myDate;
-    TextView myText;
-    TextView zodiacName;
-    ImageView myImage;
+    DatePicker zodiacDatePicker;
+    TextView zodiacNameView;
+    ImageView zodiacImageView;
+    SharedPreferences.Editor editor;
     int globalYear = 2000;
     int globalMonth = 0;
     int globalDay = 1;
 
-    SharedPreferences.Editor editor;
-    int[] zodiacDays = new int[] {20,20,20,20,21,21,22,22,22,23,22,21};
+    static final int[] zodiacDays = new int[] {20,20,20,20,21,21,22,22,22,23,22,21};
     static final int[] zodiacPics = {
             R.drawable.kozoroh01,
             R.drawable.vodnar02,
@@ -51,8 +44,7 @@ public class MainActivity extends AppCompatActivity implements DatePicker.OnDate
             R.drawable.stir11,
             R.drawable.strelec12
     };
-
-    String[] zodiacNames = {
+    static final String[] zodiacNames = {
             "Kozoroh",
             "Vodnář",
             "Ryby",
@@ -73,81 +65,70 @@ public class MainActivity extends AppCompatActivity implements DatePicker.OnDate
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //layout = (ViewGroup) view.findViewById(R.id.background);  //put it inside the oncreate of main activity
 
+        zodiacNameView = findViewById(R.id.zodiacName);
+        zodiacImageView = findViewById(R.id.imageView);
+        zodiacDatePicker = findViewById(R.id.myDatePicker);
 
-        myDate = findViewById(R.id.myDatePicker);
-        myDate.init(globalYear, globalMonth, globalDay, this);
+        //get prefs or default 1.1.2000
+        SharedPreferences prefs = getSharedPreferences("zodiacPrefs", MODE_PRIVATE);
+        String textName = prefs.getString("name", "Kozoroh");//"No name defined" is the default value.
+        int pic = prefs.getInt("pic", R.drawable.kozoroh01);
+        int day = prefs.getInt("day", 1);
+        int month = prefs.getInt("month", 0);
+        int year = prefs.getInt("year", 2000);
 
-        myText = findViewById(R.id.textView);
-        myText.setText("Fill your birthdate");
+        zodiacDatePicker.init(year, month, day, this);
+        zodiacImageView.setImageResource(pic);
+        zodiacNameView.setText(textName);
 
-        myImage = findViewById(R.id.imageView);
-
-        myImage.setOnTouchListener(new View.OnTouchListener() {
+        zodiacImageView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent event) { //parametr Event pomocí něhož můžeme odchytávat co se stalo
 
-            if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                // Toast.makeText(getApplicationContext(), "Action down", Toast.LENGTH_LONG).show(); //getAppCont získáme ID aplikace bo tato fce je anonymní
-                myImage.setColorFilter(Color.argb(150,50,255,50));
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                Toast.makeText(getApplicationContext(), "Action down", Toast.LENGTH_SHORT).show(); //getAppCont získáme ID aplikace bo tato fce je anonymní
+                zodiacImageView.setColorFilter(Color.argb(150,50,255,50));
             }
 
-            if(event.getAction() == MotionEvent.ACTION_UP) {
-                myImage.clearColorFilter();
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                Toast.makeText(getApplicationContext(), "Action up", Toast.LENGTH_SHORT).show();
+                zodiacImageView.clearColorFilter();
 
                 Intent myIntent = new Intent(getApplicationContext(), Main2Activity.class);
                 startActivityForResult(myIntent, 202);
             }
-
             return true; //aby poslouchal dál a neskončil na prvním ifu
             }
         });
 
-        zodiacName = findViewById(R.id.zodiacName);
     }
 
-    @Override
-    public void onResume(){
-        super.onResume();
-
-        SharedPreferences prefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
-        int wallNum = prefs.getInt("background", 0);
-
-        Drawable wall = ResourcesCompat.getDrawable(getResources(), wallNum, null);
-
-        View mainBackground = findViewById(R.id.background);
-
-        mainBackground.setBackground(wall);
-
-    }
-    /////////////////// onActivityResult ///////////////////
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) { //Odchytávač pomocí toho request kódu
-
         super.onActivityResult(requestCode, resultCode, data); //do proměnné 'data' přijdou ta data a můžeme je číst
-
         try {
-            String msg = "null";
+            //String msg = "wrong request code";
 
             if (requestCode == 202) {
-                msg = data.getStringExtra("main2");
-
+                //msg = data.getStringExtra("main2");
 
             } else if (requestCode == 420) {
-                 msg = Integer.toString((data.getIntExtra("wall", 0)));
-            } else {
-                msg = "achjo.";
+                //msg = Integer.toString((data.getIntExtra("wall", 0))).concat("... back from act4");
+                int wallNum = (data.getIntExtra("wall", zodiacPics[0]));
+                Drawable wall = ResourcesCompat.getDrawable(getResources(), wallNum, null);
+                View mainBackground = findViewById(R.id.background);
+
+                mainBackground.setBackground(wall);
             }
 
-            Toast.makeText(getApplicationContext(),msg, Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(),msg, Toast.LENGTH_LONG).show();
 
         } catch(Exception e) {
-            zodiacName.setText("");
+            Toast.makeText(getApplicationContext(),"exception try activity result", Toast.LENGTH_LONG).show();
         }
     }
 
-    /////////////////// Options menu ///////////////////
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu); //Create menu
@@ -172,7 +153,6 @@ public class MainActivity extends AppCompatActivity implements DatePicker.OnDate
         return super.onOptionsItemSelected(item);
     }
 
-    /////////////////// onDateChanged ///////////////////
     public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth){
         globalMonth = monthOfYear;
         globalDay = dayOfMonth;
@@ -180,27 +160,26 @@ public class MainActivity extends AppCompatActivity implements DatePicker.OnDate
 
         if (dayOfMonth <= zodiacDays[monthOfYear]){
 
-            zodiacName.setText(zodiacNames[monthOfYear]);
-            myImage.setImageResource(zodiacPics[monthOfYear]);
+            zodiacNameView.setText(zodiacNames[monthOfYear]);
+            zodiacImageView.setImageResource(zodiacPics[monthOfYear]);
 
         } else {
 
             if (monthOfYear == 11) monthOfYear = -1; //11 = prosinec, 0 = leden
-            myImage.setImageResource(zodiacPics[++monthOfYear]);
-            zodiacName.setText(zodiacNames[monthOfYear]);
+            zodiacImageView.setImageResource(zodiacPics[++monthOfYear]);
+            zodiacNameView.setText(zodiacNames[monthOfYear]);
 
         }
 
-        //Add to shared preferences
-        editor = getSharedPreferences("myPrefs", MODE_PRIVATE).edit();
+        editor = getSharedPreferences("zodiacPrefs", MODE_PRIVATE).edit();
 
         editor.putString("name", zodiacNames[monthOfYear]);
         editor.putInt("pic", zodiacPics[monthOfYear]);
         editor.putInt("day", dayOfMonth);
         editor.putInt("month", monthOfYear);
         editor.putInt("year", year);
+
         editor.apply();
     }
-
 
 }

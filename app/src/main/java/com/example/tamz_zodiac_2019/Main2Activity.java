@@ -19,7 +19,6 @@ public class Main2Activity extends AppCompatActivity {
     TextView myDate;
     TextView myName;
     TextView myDesc;
-
     String textName;
 
     @SuppressLint("SetTextI18n")
@@ -33,36 +32,21 @@ public class Main2Activity extends AppCompatActivity {
         myName = findViewById(R.id.textZodiac);
         myDesc = findViewById(R.id.textDesc);
 
-        SharedPreferences prefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
-        String name = prefs.getString("name", "No name defined");//"No name defined" is the default value.
-        int pic = prefs.getInt("pic", -1); //0 is the default value.
-        int day = prefs.getInt("day", -1); //0 is the default value.
-        int month = prefs.getInt("month", -1); //0 is the default value.
-        int year = prefs.getInt("year", -1); //0 is the default value.
+        SharedPreferences prefs = getSharedPreferences("zodiacPrefs", MODE_PRIVATE);
+        textName = prefs.getString("name", "No name defined");//"No name defined" is the default value.
+        int day = prefs.getInt("day", -1);
+        int month = prefs.getInt("month", -1);
+        int year = prefs.getInt("year", -1);
 
-
-
-        //
-
-
-      /*  Intent intent = getIntent();
-        Integer month = intent.getIntExtra("monthOfYear", -1);
-        Integer day = intent.getIntExtra("dayOfMonth", -1);
-        Integer year = intent.getIntExtra("year",-1);
-        String name = intent.getStringExtra("zodiacName");
-        Toast.makeText(this, "monthOfYear: " + month + "dayOfMonth: "+ day, Toast.LENGTH_SHORT).show();*/
         myDate.setText(day+". "+(month+1)+". "+year);
-        myName.setText(name);
+        myName.setText(textName);
     }
 
     public void resultClick(View view) { //na tlačítku "back"
-
-       // Toast.makeText(this, "resultClickkkkkkkkkkkkk", Toast.LENGTH_LONG).show();
         Intent myIntent = new Intent(getApplicationContext(), MainActivity.class); //vytvoří se záměr
-        myIntent.putExtra("main2","Zprava z lMain2Activity"); //Do záměru se hodí data ve formátu ("key","value")
+        myIntent.putExtra("main2","Zprava z Main2Activity"); //Do záměru se hodí data ve formátu ("key","value")
         setResult(100, myIntent);
-        finish(); //ukončuje druhou aktivitu
-
+        finish();
     }
 
     public String flattenToAscii(String s) {
